@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 
+import googleviewer.Proxy;
 import googleviewer.services.LoginService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -36,12 +37,11 @@ public class LoginServiceTest {
     public void tearDown() {
     }
 
-  
     @Test
     public void naoDeveriaRealizarLogin() {
         final LoginService instance = LoginService.getInstance();
         instance.doLogout();
-        instance.doLogin("teste", "teste");
+        instance.doLogin("teste", "teste", null);
         boolean connected = instance.isConnected();
         assertFalse(connected);
 

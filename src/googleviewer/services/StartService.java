@@ -2,6 +2,7 @@ package googleviewer.services;
 
 import com.google.gdata.data.geo.Point;
 import googleviewer.Balao;
+import googleviewer.Proxy;
 import googleviewer.menuItems.MenuItemCalendarEventos;
 import googleviewer.views.FrameLogin;
 import googleviewer.menuItems.MenuItemGmail;
@@ -38,9 +39,9 @@ public class StartService {
     private TrayIcon trayIcon;
     private PopupMenu popupMenu;
     private SystemTray tray;
-    private static URL icon = StartService.class.getResource("icon.png");
-    private static URL iconLoading = StartService.class.getResource("ajax-loader_5.gif");
-    private static URL iconClosed = StartService.class.getResource("off.png");
+    private static URL icon = StartService.class.getResource("/googleviewer/images/icon.png");
+    private static URL iconLoading = StartService.class.getResource("/googleviewer/images/ajax-loader_5.gif");
+    private static URL iconClosed = StartService.class.getResource("/googleviewer/images/off.png");
     private static final Image image = new ImageIcon(icon).getImage();
     private static final Image imageLoading = new ImageIcon(iconLoading).getImage();
     private static final Image imageClosed = new ImageIcon(iconClosed).getImage();
@@ -72,7 +73,10 @@ public class StartService {
                             protected Boolean doInBackground() throws Exception {
                                 trayIcon.setImage(imageLoading);
                                 frame.setVisible(false);
-                                boolean doLogin = LoginService.getInstance().doLogin(frame.getTextFieldLogin().getText(), String.valueOf(frame.getTextFieldPassword().getPassword()));
+                                final String login = frame.getTextFieldLogin().getText();
+                                final String password = String.valueOf(frame.getTextFieldPassword().getPassword());
+                                final Proxy proxy = frame.getProxy();
+                                boolean doLogin = LoginService.getInstance().doLogin(login, password,proxy);
                                 if (doLogin) {
                                     addMenus();
                                     dispose();

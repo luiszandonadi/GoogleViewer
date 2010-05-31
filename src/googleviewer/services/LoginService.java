@@ -11,6 +11,9 @@ import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
+import com.googlecode.gmail4j.util.LoginDialog;
+import googleviewer.Proxy;
+import java.net.Proxy.Type;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
@@ -34,8 +37,6 @@ public class LoginService {
         return client;
     }
 
- 
-
     public static LoginService getInstance() {
         if (loginService == null) {
             loginService = new LoginService();
@@ -43,16 +44,31 @@ public class LoginService {
         return loginService;
     }
 
-    public boolean doLogin(String login, String senha) {
+    public boolean doLogin(String login, String senha, Proxy proxy) {
 
         try {
             currentLogin = login;
             currentPassword = senha;
-            calendarService = new CalendarService("calendar-service-google-viewer");
-            calendarService.setUserCredentials(currentLogin, currentPassword);
-            GmailConnection gmailConnection = new HttpGmailConnection(currentLogin, currentPassword.toCharArray());
+
+            HttpGmailConnection gmailConnection = new HttpGmailConnection(currentLogin, currentPassword.toCharArray());
+
+            if (proxy != null) {
+                final String proxyHost = proxy.getProxy();
+                final Integer proxyPort = proxy.getPorta();
+
+                System.setProperty("http.proxyHost", proxyHost);
+                System.setProperty("http.proxyPort", proxyPort.toString());
+
+                gmailConnection.setProxy(proxyHost, proxyPort);
+                gmailConnection.setProxyCredentials(LoginDialog.getInstance().show("Enter Proxy Login"));
+
+            }
             client = new RssGmailClient();
             client.setConnection(gmailConnection);
+
+            calendarService = new CalendarService("calendar-service-google-viewer");
+
+            calendarService.setUserCredentials(currentLogin, currentPassword);
             return true;
         } catch (AuthenticationException ex) {
             Logger.getLogger(LoginService.class.getName()).log(Level.SEVERE, null, ex);
