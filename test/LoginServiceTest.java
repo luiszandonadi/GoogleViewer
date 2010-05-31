@@ -3,12 +3,7 @@
  * and open the template in the editor.
  */
 
-import googleviewer.menuItems.MenuItemGmail;
 import googleviewer.services.LoginService;
-import java.awt.TrayIcon;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
