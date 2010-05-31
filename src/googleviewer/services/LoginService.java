@@ -13,10 +13,13 @@ import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.googlecode.gmail4j.util.LoginDialog;
 import googleviewer.Proxy;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Proxy.Type;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
+import javax.swing.Timer;
 
 /**
  *
@@ -50,6 +53,8 @@ public class LoginService {
             currentLogin = login;
             currentPassword = senha;
 
+            calendarService = new CalendarService("calendar-service-google-viewer");
+            calendarService.setUserCredentials(currentLogin, currentPassword);
             HttpGmailConnection gmailConnection = new HttpGmailConnection(currentLogin, currentPassword.toCharArray());
 
             if (proxy != null) {
@@ -66,11 +71,12 @@ public class LoginService {
             client = new RssGmailClient();
             client.setConnection(gmailConnection);
 
-            calendarService = new CalendarService("calendar-service-google-viewer");
+            
+        
 
-            calendarService.setUserCredentials(currentLogin, currentPassword);
+
             return true;
-        } catch (AuthenticationException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(LoginService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;

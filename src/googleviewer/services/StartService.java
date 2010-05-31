@@ -1,6 +1,5 @@
 package googleviewer.services;
 
-import com.google.gdata.data.geo.Point;
 import googleviewer.Balao;
 import googleviewer.Proxy;
 import googleviewer.menuItems.MenuItemCalendarEventos;
@@ -16,9 +15,6 @@ import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +72,7 @@ public class StartService {
                                 final String login = frame.getTextFieldLogin().getText();
                                 final String password = String.valueOf(frame.getTextFieldPassword().getPassword());
                                 final Proxy proxy = frame.getProxy();
-                                boolean doLogin = LoginService.getInstance().doLogin(login, password,proxy);
+                                boolean doLogin = LoginService.getInstance().doLogin(login, password, proxy);
                                 if (doLogin) {
                                     addMenus();
                                     dispose();
@@ -173,12 +169,7 @@ public class StartService {
         menuItemLogout.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ae) {
-
-
-
-
                 doLogout();
-
             }
         });
 

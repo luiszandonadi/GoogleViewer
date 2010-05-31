@@ -1,24 +1,23 @@
 package googleviewer;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.MenuContainer;
 import java.awt.Point;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.concurrent.ThreadSafe;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import javax.swing.Timer;
 
 /*
  * To change this template, choose Tools | Templates
@@ -61,11 +60,12 @@ public class Balao extends JWindow {
         setVisible(true);
         Point location = getOwner().getLocation();
 
-        setLocation(location.x+500,location.y+25);
+        setLocation(location.x + 500, location.y + 25);
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
+//                setVisible(false);
+                dispose();
             }
 
             public void mousePressed(MouseEvent e) {
@@ -80,8 +80,27 @@ public class Balao extends JWindow {
             public void mouseExited(MouseEvent e) {
             }
         });
-        
+
         jLabel.setText(conteudo);
+
+        /*
+         * Tempo Padrão 20 segundos.
+         */
+        final long tempo = 20000;
+
+        Thread thread = new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    Thread.sleep(tempo);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Balao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//                setVisible(false);
+                dispose();
+            }
+        });
+        thread.start();
         pack();
     }
 }
