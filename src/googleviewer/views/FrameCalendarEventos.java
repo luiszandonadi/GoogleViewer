@@ -19,6 +19,7 @@ import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -421,7 +422,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
             final DateTime endTime = when.getEndTime();
             if (startTime.isDateOnly() || endTime.isDateOnly()) {
                 jCheckBox1.setSelected(true);
-            }else{
+            } else {
                 jCheckBox1.setSelected(false);
             }
             Date inicio = new Date(startTime.getValue());
@@ -437,14 +438,15 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void LimparCampos() {
+        Date date = calendar.getTime();
         currentEventEntry = null;
         textFieldTitulo.setText("");
         textAreaDescricao.setText("");
-        datePickerInicio.setDate(null);
-        datePickerFim.setDate(null);
+        datePickerInicio.setDate(date);
+        datePickerFim.setDate(date);
         jButton5.setVisible(false);
-        smi.setValue(calendar.getTime());
-        smf.setValue(calendar.getTime());
+        smi.setValue(date);
+        smf.setValue(date);
         jCheckBox1.setSelected(false);
     }
 
@@ -497,26 +499,32 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                     //TODO: needs refactor!!!!!!!!
                     Date dateInicio = datePickerInicio.getDate();
                     Date dateFim = datePickerFim.getDate();
-                    DateTime startTime = new DateTime(dateInicio, TimeZone.getDefault());
-                    DateTime endTime = new DateTime(dateFim, TimeZone.getDefault());
+                    boolean dateOnly = false;
                     if (!jCheckBox1.isSelected()) {
 
                         dateInicio.setHours(smi.getDate().getHours());
                         dateFim.setHours(smf.getDate().getHours());
                         dateInicio.setMinutes(smi.getDate().getMinutes());
                         dateFim.setMinutes(smf.getDate().getMinutes());
+
                     } else {
-                        startTime.setDateOnly(true);
-                        endTime.setDateOnly(true);
+                        dateOnly = true;
                     }
+                    DateTime startTime = new DateTime(dateInicio, TimeZone.getDefault());
+                    DateTime endTime = new DateTime(dateFim, TimeZone.getDefault());
+                    startTime.setDateOnly(dateOnly);
+                    endTime.setDateOnly(dateOnly);
                     When eventTimes = new When();
                     eventTimes.setStartTime(startTime);
                     eventTimes.setEndTime(endTime);
-                    currentEventEntry.addTime(eventTimes);
+
                     CalendarService calendarService = LoginService.getInstance().getCalendarService();
                     if (operation.equals("update")) {
                         try {
+                            currentEventEntry.getTimes().clear();
+                            currentEventEntry.addTime(eventTimes);
                             postUrl = new URL(currentEventEntry.getEditLink().getHref());
+//                            CalendarEventEntry update = currentEventEntry.update();
                             CalendarEventEntry update = calendarService.update(postUrl, currentEventEntry);
                             return update;
                         } catch (IOException ex) {
@@ -534,13 +542,15 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                             Reminder reminder = new Reminder();
                             reminder.setDays(5);
                             reminder.setMethod(methodType);
-                            currentEventEntry.getReminder().add(reminder);
+                            List<Reminder> reminders = currentEventEntry.getReminder();
+                            reminders = new ArrayList<Reminder>();
+                            reminders.add(reminder);
+                            currentEventEntry.addTime(eventTimes);
                             CalendarEventEntry insert = calendarService.insert(postUrl, currentEventEntry);
                             return insert;
-                        } catch (IOException ex) {
+                        } catch (Exception ex) {
                             Logger.getLogger(FrameCalendarEventos.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ServiceException ex) {
-                            Logger.getLogger(FrameCalendarEventos.class.getName()).log(Level.SEVERE, null, ex);
+                            return null;
                         }
 
                     }
