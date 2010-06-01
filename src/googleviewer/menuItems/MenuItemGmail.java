@@ -6,7 +6,8 @@ package googleviewer.menuItems;
 
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailMessage;
-import googleviewer.services.LoginService;
+import googleviewer.Email;
+import googleviewer.services.ConnectionService;
 import googleviewer.services.UtilService;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -14,6 +15,7 @@ import java.awt.MenuItem;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -67,25 +69,34 @@ public class MenuItemGmail extends MenuItem {
 
 
                 try {
-                    LoginService instance = LoginService.getInstance();
+                    ConnectionService instance = ConnectionService.getInstance();
                     GmailClient client = instance.getClient();
                     final List<GmailMessage> messages = client.getUnreadMessages();
-                    String text = "<html><ul style='padding:0;margin:0;list-style-type:none;'> ";
+//                    String text = "<html><ul style='padding:0;margin:0;list-style-type:none;'> ";
+                    String text = "";
                     int count = 0;
+                    List<Email> emails = new ArrayList<Email>();
                     for (GmailMessage message : messages) {
-                        String color = "blue";
+                        String color = "#C10000";
                         if (count % 2 > 0) {
                             color = "black";
                         }
                         count++;
-
-                        text += "<li><font size=-1 color=" + color + ">"
-                                + UtilService.getInstance().getDateFormat().format(message.getSendDate())
+                        String texto ="<html><font size=-1 color=" + color + ">"
+                                + UtilService.getInstance().getDateFormat(true).format(message.getSendDate())
                                 + " <b>(" + message.getFrom().getName()
                                 + ")</b> " + message.getSubject()
-                                + "</font></li>";
+                                + "</font></html>";
+
+                        emails.add(new Email(texto, message.getLink()));
+//                        text += "<li><font size=-1 color=" + color + ">"
+//                                + UtilService.getInstance().getDateFormat(true).format(message.getSendDate())
+//                                + " <b>(" + message.getFrom().getName()
+//                                + ")</b> " + message.getSubject()
+//                                + "</font></li>";
                     }
-                    text += "</ul> ";
+                    UtilService.getInstance().setEmails(emails);
+//                    text += "<br/></ul> ";
                     Integer size = messages.size();
                     trayIcon.displayMessage(
                             "<html>"

@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import org.jdesktop.swingx.JXHyperlink;
+import org.jdesktop.swingx.hyperlink.LinkModelAction;
 
 /*
  * To change this template, choose Tools | Templates

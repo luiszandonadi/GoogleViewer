@@ -72,7 +72,7 @@ public class StartService {
                                 final String login = frame.getTextFieldLogin().getText();
                                 final String password = String.valueOf(frame.getTextFieldPassword().getPassword());
                                 final Proxy proxy = frame.getProxy();
-                                boolean doLogin = LoginService.getInstance().doLogin(login, password, proxy);
+                                boolean doLogin = ConnectionService.getInstance().doLogin(login, password, proxy);
                                 if (doLogin) {
                                     addMenus();
                                     dispose();
@@ -188,7 +188,7 @@ public class StartService {
         popupMenu.remove(menuItemGmail);
         popupMenu.remove(menuItemMensagem);
         popupMenu.add(menuItemLogin);
-        LoginService.getInstance().doLogout();
+        ConnectionService.getInstance().doLogout();
 
 
     }

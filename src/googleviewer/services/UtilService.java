@@ -4,7 +4,10 @@
  */
 package googleviewer.services;
 
+
+import googleviewer.Email;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -14,10 +17,10 @@ import java.util.ResourceBundle;
  */
 public class UtilService {
 
-    private SimpleDateFormat defaultDateFormat;
     private static UtilService instance;
     private ResourceBundle bundle;
     private Locale defaltLocale = Locale.getDefault();
+    private List<Email> emails;
 
     public static UtilService getInstance() {
         if (instance == null) {
@@ -27,29 +30,41 @@ public class UtilService {
         return instance;
     }
 
-    public Locale getDefaltLocale() {
-        return defaltLocale;
+    public List<Email> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<Email> emails) {
+        this.emails = emails;
     }
 
     
 
-    public SimpleDateFormat getDateFormat() {
-        if (defaultDateFormat == null) {
-            defaultDateFormat = new SimpleDateFormat(getDefaltBundle().getString("date_time_mask"));
 
-        }
-        return defaultDateFormat;
+    public Locale getDefaltLocale() {
+        return defaltLocale;
+    }
+
+    public SimpleDateFormat getDateFormat(boolean time) {
+
+
+        String mask = time ? "date_time_mask" : "date_only_mask";
+//        if (defaultDateFormat == null) {
+//            defaultDateFormat =
+//
+//        }
+        return new SimpleDateFormat(getDefaltBundle().getString(mask));
     }
 
     public UtilService() {
     }
 
     public ResourceBundle getDefaltBundle() {
-       
-        if (!defaltLocale.toString().equals("pt_BR") ) {
+
+        if (!defaltLocale.toString().equals("pt_BR")) {
             defaltLocale = new Locale("en", "US");
         }
-        bundle = ResourceBundle.getBundle("MessagesBundle",defaltLocale);
+        bundle = ResourceBundle.getBundle("MessagesBundle", defaltLocale);
 
         return bundle;
     }

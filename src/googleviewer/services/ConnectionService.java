@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  *
  * @author luis
  */
-public class LoginService {
+public class ConnectionService {
 
-    private static LoginService loginService;
+    private static ConnectionService loginService;
     private CalendarService calendarService;
     private GmailClient client;
     private String currentPassword, currentLogin;
@@ -41,9 +41,9 @@ public class LoginService {
 
     }
 
-    public static LoginService getInstance() {
+    public static ConnectionService getInstance() {
         if (loginService == null) {
-            loginService = new LoginService();
+            loginService = new ConnectionService();
         }
         return loginService;
     }
@@ -78,7 +78,7 @@ public class LoginService {
 
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(LoginService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConnectionService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

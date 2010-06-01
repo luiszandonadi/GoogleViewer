@@ -12,7 +12,7 @@ import com.google.gdata.data.extensions.When;
 import com.google.gdata.util.ServiceException;
 import googleviewer.Main;
 import googleviewer.TableModel;
-import googleviewer.services.LoginService;
+import googleviewer.services.ConnectionService;
 import googleviewer.services.UtilService;
 import java.awt.Image;
 import java.awt.TrayIcon;
@@ -100,7 +100,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
 
                 Boolean result = true;
                 tray.setImage(loading);
-                CalendarService service = LoginService.getInstance().getCalendarService();
+                CalendarService service = ConnectionService.getInstance().getCalendarService();
                 URL feedUrl = null;
                 try {
                     feedUrl = new URL("http://www.google.com/calendar/feeds/default/private/full");
@@ -138,7 +138,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
 
                     List<CalendarEventEntry> eventos = resultFeed.getEntries();
                     String colunas = defaltBundle.getDefaltBundle().getString("collunms");
-                    jTable1.setModel(new TableModel(eventos, colunas.split(","), defaltBundle.getDateFormat()));
+                    jTable1.setModel(new TableModel(eventos, colunas.split(","), defaltBundle));
 
 
 
@@ -211,6 +211,8 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -238,7 +240,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addContainerGap(300, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -248,7 +250,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -298,7 +300,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
             }
         });
 
-        labelOutput.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
+        labelOutput.setFont(new java.awt.Font("DejaVu Sans", 1, 12));
         labelOutput.setForeground(new java.awt.Color(0, 102, 255));
 
         labelLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/googleviewer/images/loader_big.gif"))); // NOI18N
@@ -318,9 +320,9 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(75, 75, 75)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                                    .addComponent(textFieldTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                                    .addComponent(labelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                    .addComponent(textFieldTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                    .addComponent(labelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
                                 .addGap(50, 50, 50))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jButton3)
@@ -362,7 +364,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                             .addComponent(jButton4)
                             .addComponent(jButton5))
                         .addGap(18, 18, 18)
-                        .addComponent(labelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
+                        .addComponent(labelOutput, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(217, 217, 217)
                         .addComponent(labelLoading, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -494,8 +496,6 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                     currentEventEntry.setTitle(new PlainTextConstruct(textFieldTitulo.getText()));
                     currentEventEntry.setContent(new PlainTextConstruct(textAreaDescricao.getText()));
 
-//                    DateTime startTime = DateTime.now();
-//                    DateTime endTime = DateTime.now();
                     //TODO: needs refactor!!!!!!!!
                     Date dateInicio = datePickerInicio.getDate();
                     Date dateFim = datePickerFim.getDate();
@@ -518,7 +518,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                     eventTimes.setStartTime(startTime);
                     eventTimes.setEndTime(endTime);
 
-                    CalendarService calendarService = LoginService.getInstance().getCalendarService();
+                    CalendarService calendarService = ConnectionService.getInstance().getCalendarService();
                     if (operation.equals("update")) {
                         try {
                             currentEventEntry.getTimes().clear();
@@ -536,7 +536,7 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
 
                     } else if (operation.equals("create")) {
                         try {
-                            String url = "http://www.google.com/calendar/feeds/?/private/full".replace("?", LoginService.getInstance().getEmail());
+                            String url = "http://www.google.com/calendar/feeds/?/private/full".replace("?", ConnectionService.getInstance().getEmail());
                             postUrl = new URL(url);
                             Method methodType = Method.EMAIL;
                             Reminder reminder = new Reminder();

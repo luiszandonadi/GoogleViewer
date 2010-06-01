@@ -1,23 +1,21 @@
 package googleviewer;
 
+import googleviewer.services.UtilService;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.concurrent.ThreadSafe;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
-import javax.swing.Timer;
 
 /*
  * To change this template, choose Tools | Templates
@@ -40,7 +38,8 @@ public class Balao extends JWindow {
                 BorderFactory.createLineBorder(Color.BLACK, 1));
         balloonTitle = new JLabel(titulo);
         balloonTitle.setOpaque(true);
-        balloonTitle.setBackground(Color.decode("#43328F"));
+//        balloonTitle.setBackground(Color.decode("#43328F"));
+        balloonTitle.setBackground(Color.decode("#C10000"));
         balloonTitle.setForeground(Color.WHITE);
         balloonTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
@@ -49,14 +48,15 @@ public class Balao extends JWindow {
 
         panelContent = new JPanel(new GridLayout(0, 1));
         panelContent.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        panelContent.setBackground(Color.decode("#FFFBCF"));
+//        panelContent.setBackground(Color.decode("#FFFBCF"));
+        panelContent.setBackground(Color.decode("#FFFFFF"));
         contentPane.add(balloonTitle, BorderLayout.NORTH);
         contentPane.add(panelContent, BorderLayout.CENTER);
         getContentPane().add(contentPane);
 
         balloonTitle.setFocusable(true);
-        JLabel jLabel = new JLabel();
-        panelContent.add(jLabel);
+//        JLabel jLabel = new LabelHyperlinked();
+//        panelContent.add(jLabel);
         setVisible(true);
         Point location = getOwner().getLocation();
 
@@ -80,8 +80,17 @@ public class Balao extends JWindow {
             public void mouseExited(MouseEvent e) {
             }
         });
+        //        jLabel.setText(conteudo);
+        List<Email> emails = UtilService.getInstance().getEmails();
+        if (emails != null) {
+            for (Email email : emails) {
+                LabelHyperlinked label = new LabelHyperlinked(email.getTexto());
+                label.setUrl(email.getUrl());
+                panelContent.add(label);
 
-        jLabel.setText(conteudo);
+
+            }
+        }
 
         /*
          * Tempo Padrão 20 segundos.

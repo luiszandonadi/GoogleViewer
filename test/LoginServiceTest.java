@@ -4,7 +4,7 @@
  */
 
 import googleviewer.Proxy;
-import googleviewer.services.LoginService;
+import googleviewer.services.ConnectionService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class LoginServiceTest {
 
     @Test
     public void naoDeveriaRealizarLogin() {
-        final LoginService instance = LoginService.getInstance();
+        final ConnectionService instance = ConnectionService.getInstance();
         instance.doLogout();
         instance.doLogin("teste", "teste", null);
         boolean connected = instance.isConnected();
