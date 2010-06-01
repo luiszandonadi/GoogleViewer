@@ -108,6 +108,8 @@ public abstract class FrameLogin extends javax.swing.JFrame {
 
         jOutlookBar1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
+
         labelLogin.setText("Email:");
 
         labelSenha.setText("Senha:");
@@ -115,6 +117,7 @@ public abstract class FrameLogin extends javax.swing.JFrame {
         labelOutput.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         labelOutput.setForeground(new java.awt.Color(204, 0, 0));
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/googleviewer/images/door_out.png"))); // NOI18N
         jButton1.setText("Fechar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +125,7 @@ public abstract class FrameLogin extends javax.swing.JFrame {
             }
         });
 
+        buttonLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/googleviewer/images/accept.png"))); // NOI18N
         buttonLogin.setText("Login");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -147,8 +151,8 @@ public abstract class FrameLogin extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75))))
+                        .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {textFieldLogin, textFieldPassword});
@@ -177,11 +181,13 @@ public abstract class FrameLogin extends javax.swing.JFrame {
 
         jOutlookBar1.addTab("", jPanel1);
 
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+
         labelProxy.setText("Proxy");
 
         labelProxyPort.setText("Porta");
 
-        checkBoxProxy.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        checkBoxProxy.setFont(new java.awt.Font("DejaVu Sans", 1, 14));
         checkBoxProxy.setText("Usar Proxy?");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -197,11 +203,11 @@ public abstract class FrameLogin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textFieldProxy, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldProxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(84, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(checkBoxProxy, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
+                .addGap(110, 110, 110))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +222,7 @@ public abstract class FrameLogin extends javax.swing.JFrame {
                     .addComponent(textFieldProxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(checkBoxProxy)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jOutlookBar1.addTab("Configurações", jPanel2);

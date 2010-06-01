@@ -1,6 +1,5 @@
 package googleviewer;
 
-
 import com.google.gdata.data.calendar.CalendarEventEntry;
 import com.google.gdata.data.extensions.When;
 import java.text.SimpleDateFormat;
@@ -22,7 +21,7 @@ public class TableModel extends AbstractTableModel {
     private String[] colunas;
     private List<CalendarEventEntry> eventos;
 
-    public TableModel(List<CalendarEventEntry> eventos,String[] colunas,SimpleDateFormat sdf) {
+    public TableModel(List<CalendarEventEntry> eventos, String[] colunas, SimpleDateFormat sdf) {
         this.eventos = eventos;
         this.colunas = colunas;
         this.sdf = sdf;
@@ -67,5 +66,9 @@ public class TableModel extends AbstractTableModel {
         }
 
 
+    }
+
+    public CalendarEventEntry getCalendarEventEntry(int index) {
+        return eventos.get(index);
     }
 }

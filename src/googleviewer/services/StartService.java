@@ -35,7 +35,7 @@ public class StartService {
     private TrayIcon trayIcon;
     private PopupMenu popupMenu;
     private SystemTray tray;
-    private static URL icon = StartService.class.getResource("/googleviewer/images/icon.png");
+    private static URL icon = StartService.class.getResource("/googleviewer/images/icon_red.png");
     private static URL iconLoading = StartService.class.getResource("/googleviewer/images/ajax-loader_5.gif");
     private static URL iconClosed = StartService.class.getResource("/googleviewer/images/off.png");
     private static final Image image = new ImageIcon(icon).getImage();

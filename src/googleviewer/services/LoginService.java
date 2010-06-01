@@ -5,21 +5,14 @@
 package googleviewer.services;
 
 import com.google.gdata.client.calendar.CalendarService;
-import com.google.gdata.util.AuthenticationException;
 import com.googlecode.gmail4j.GmailClient;
-import com.googlecode.gmail4j.GmailConnection;
-import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.googlecode.gmail4j.util.LoginDialog;
 import googleviewer.Proxy;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.Proxy.Type;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
-import javax.swing.Timer;
 
 /**
  *
@@ -38,6 +31,14 @@ public class LoginService {
 
     public GmailClient getClient() {
         return client;
+    }
+
+    public String getEmail() {
+        if (!currentLogin.contains("@")) {
+            currentLogin += "@gmail.com";
+        }
+        return currentLogin;
+
     }
 
     public static LoginService getInstance() {
@@ -71,8 +72,8 @@ public class LoginService {
             client = new RssGmailClient();
             client.setConnection(gmailConnection);
 
-            
-        
+
+
 
 
             return true;

@@ -25,12 +25,7 @@ public class MenuItemCalendarEventos extends MenuItem {
             public void actionPerformed(ActionEvent ae) {
 
                 FrameCalendarEventos frame = new FrameCalendarEventos(image, imageLoading, trayIcon);
-
                 frame.loadTable(null, null);
-
-
-
-
             }
         });
 
