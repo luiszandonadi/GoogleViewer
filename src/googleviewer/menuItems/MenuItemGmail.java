@@ -72,31 +72,20 @@ public class MenuItemGmail extends MenuItem {
                     ConnectionService instance = ConnectionService.getInstance();
                     GmailClient client = instance.getClient();
                     final List<GmailMessage> messages = client.getUnreadMessages();
-//                    String text = "<html><ul style='padding:0;margin:0;list-style-type:none;'> ";
                     String text = "";
-                    int count = 0;
                     List<Email> emails = new ArrayList<Email>();
                     for (GmailMessage message : messages) {
-                        String color = "#C10000";
-                        if (count % 2 > 0) {
-                            color = "black";
-                        }
-                        count++;
-                        String texto ="<html><font size=-1 color=" + color + ">"
+
+                        String texto ="<html>"
                                 + UtilService.getInstance().getDateFormat(true).format(message.getSendDate())
-                                + " <b>(" + message.getFrom().getName()
-                                + ")</b> " + message.getSubject()
-                                + "</font></html>";
+                                + " <b><u>(" + message.getFrom().getName()
+                                + ")</u></b> " + message.getSubject()
+                                + "</html>";
 
                         emails.add(new Email(texto, message.getLink()));
-//                        text += "<li><font size=-1 color=" + color + ">"
-//                                + UtilService.getInstance().getDateFormat(true).format(message.getSendDate())
-//                                + " <b>(" + message.getFrom().getName()
-//                                + ")</b> " + message.getSubject()
-//                                + "</font></li>";
+
                     }
                     UtilService.getInstance().setEmails(emails);
-//                    text += "<br/></ul> ";
                     Integer size = messages.size();
                     trayIcon.displayMessage(
                             "<html>"

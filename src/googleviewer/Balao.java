@@ -29,6 +29,7 @@ public class Balao extends JWindow {
 
     private JLabel balloonTitle;
     private JPanel panelContent;
+   
 
     public Balao(String titulo, TrayIcon component, String conteudo) {
         super();
@@ -39,12 +40,13 @@ public class Balao extends JWindow {
         balloonTitle = new JLabel(titulo);
         balloonTitle.setOpaque(true);
 //        balloonTitle.setBackground(Color.decode("#43328F"));
-        balloonTitle.setBackground(Color.decode("#C10000"));
+//        balloonTitle.setBackground(Color.decode("#C10000"));
+        balloonTitle.setBackground(Color.decode("#C9604F"));
         balloonTitle.setForeground(Color.WHITE);
         balloonTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
-        Font font = new Font(null).deriveFont(Font.BOLD);
-        balloonTitle.setFont(font);
+//        Font font = ;
+        balloonTitle.setFont(new Font(null).deriveFont(Font.BOLD));
 
         panelContent = new JPanel(new GridLayout(0, 1));
         panelContent.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -81,11 +83,18 @@ public class Balao extends JWindow {
             }
         });
         //        jLabel.setText(conteudo);
+        int count = 0;
         List<Email> emails = UtilService.getInstance().getEmails();
         if (emails != null) {
             for (Email email : emails) {
+                Color c = new Color(126, 152, 255);
+                if (count % 2 > 0) {
+                    c =  new Color(120, 121, 126);
+                }
+                count++;
                 LabelHyperlinked label = new LabelHyperlinked(email.getTexto());
                 label.setUrl(email.getUrl());
+                label.setForeground(c);
                 panelContent.add(label);
 
 

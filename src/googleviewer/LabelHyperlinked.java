@@ -6,6 +6,7 @@ package googleviewer;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -20,6 +21,9 @@ import javax.swing.JLabel;
 public class LabelHyperlinked extends JLabel {
 
     private String url;
+    private Font font = new Font("Dialog", Font.PLAIN, 13);
+    private Font fontBold = new Font("Dialog", Font.BOLD, 12);
+    private Color currentColor;
 
     public void setUrl(String url) {
         this.url = url;
@@ -45,74 +49,62 @@ public class LabelHyperlinked extends JLabel {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            setBackground(Color.red);
-            setForeground(Color.BLUE);
+            setFont(font);
+//            if (currentColor != null) {
+//                setForeground(currentColor);
+//            }
             super.mouseExited(e);
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            setBackground(Color.red);
-            setForeground(Color.BLUE);
             super.mouseDragged(e);
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            setBackground(Color.red);
-            setForeground(Color.BLUE);
+//            currentColor = getForeground();
+//            setForeground(Color.BLACK);
+            setFont(fontBold);
             super.mouseEntered(e);
         }
 
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            setForeground(Color.BLUE);
-            super.mouseMoved(e);
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            super.mousePressed(e);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            super.mouseReleased(e);
-        }
-
-        @Override
-        public void mouseWheelMoved(MouseWheelEvent e) {
-            setForeground(Color.BLUE);
-            super.mouseWheelMoved(e);
-        }
+     
+     
     };
 
     public LabelHyperlinked() {
+        setFont(font);
         addMouseListener(adapter);
     }
 
     public LabelHyperlinked(Icon image) {
         super(image);
+        setFont(font);
         addMouseListener(adapter);
     }
 
     public LabelHyperlinked(Icon image, int horizontalAlignment) {
         super(image, horizontalAlignment);
+        setFont(font);
         addMouseListener(adapter);
     }
 
     public LabelHyperlinked(String text) {
         super(text);
+        setFont(font);
         addMouseListener(adapter);
     }
 
     public LabelHyperlinked(String text, int horizontalAlignment) {
         super(text, horizontalAlignment);
+        setFont(font);
         addMouseListener(adapter);
     }
 
     public LabelHyperlinked(String text, Icon icon, int horizontalAlignment) {
         super(text, icon, horizontalAlignment);
+        setFont(font);
         addMouseListener(adapter);
     }
 }
