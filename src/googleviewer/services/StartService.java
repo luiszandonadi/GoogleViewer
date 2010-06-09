@@ -123,7 +123,7 @@ public class StartService {
 
                 @Override
                 public void displayMessage(String caption, String text, MessageType messageType) {
-                    new Balao(caption, this, text);
+                    new Balao(image,caption, this, text);
                 }
             };
             trayIcon.setImageAutoSize(true);

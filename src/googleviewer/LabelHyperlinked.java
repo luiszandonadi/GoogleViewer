@@ -38,13 +38,12 @@ public class LabelHyperlinked extends JLabel {
                     try {
                         desktop.browse(new URI(url));
 
-                        super.mouseClicked(e);
-
                     } catch (Exception ev) {
                     }
                 }
             } else {
             }
+            super.mouseClicked(e);
         }
 
         @Override
@@ -68,9 +67,6 @@ public class LabelHyperlinked extends JLabel {
             setFont(fontBold);
             super.mouseEntered(e);
         }
-
-     
-     
     };
 
     public LabelHyperlinked() {

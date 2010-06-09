@@ -4,10 +4,12 @@
  */
 package googleviewer.menuItems;
 
+import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailMessage;
 import googleviewer.Email;
 import googleviewer.services.ConnectionService;
+import googleviewer.services.StartService;
 import googleviewer.services.UtilService;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -15,12 +17,16 @@ import java.awt.MenuItem;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
 /**
@@ -31,6 +37,8 @@ public class MenuItemGmail extends MenuItem {
 
     private Image image, imageLoading;
     private TrayIcon trayIcon;
+    private static URL iconNewMail = StartService.class.getResource("/googleviewer/images/mail.png");
+    private static final Image imageNewMail = new ImageIcon(iconNewMail).getImage();
 
     public MenuItemGmail(String label, final Image image, final Image imageLoading, final TrayIcon trayIcon) throws HeadlessException {
         super(label);
@@ -64,9 +72,9 @@ public class MenuItemGmail extends MenuItem {
         return new SwingWorker() {
 
             @Override
-            protected Object doInBackground() {
+            protected Boolean doInBackground() {
                 trayIcon.setImage(imageLoading);
-
+                Boolean result = false;
 
                 try {
                     ConnectionService instance = ConnectionService.getInstance();
@@ -75,11 +83,27 @@ public class MenuItemGmail extends MenuItem {
                     String text = "";
                     List<Email> emails = new ArrayList<Email>();
                     for (GmailMessage message : messages) {
+                        EmailAddress from = null;
+                        try {
+                            from = message.getFrom();
+                        } catch (Exception e) {
+                        }
 
-                        String texto ="<html>"
-                                + UtilService.getInstance().getDateFormat(true).format(message.getSendDate())
-                                + " <b><u>(" + message.getFrom().getName()
-                                + ")</u></b> " + message.getSubject()
+                        Date sendDate = null;
+                        try {
+                            sendDate = message.getSendDate();
+                        } catch (Exception e) {
+                        }
+                        String data = sendDate == null ? 
+                            UtilService.getInstance().getDefaltBundle().getString("unknown_data")
+                            : UtilService.getInstance().getDateFormat(true).format(sendDate);
+                        String nome = from == null ? 
+                            UtilService.getInstance().getDefaltBundle().getString("unknown_from")
+                            : from.getName();
+                        String texto = "<html>"
+                                + data
+                                + " <b><u>(" + nome
+                                + ")</u></b> " + message.getSubject().replace("-", "")
                                 + "</html>";
 
                         emails.add(new Email(texto, message.getLink()));
@@ -87,20 +111,38 @@ public class MenuItemGmail extends MenuItem {
                     }
                     UtilService.getInstance().setEmails(emails);
                     Integer size = messages.size();
-                    trayIcon.displayMessage(
-                            "<html>"
-                            //                                    + java.util.ResourceBundle.getBundle("pt-br")
-                            + UtilService.getInstance().getDefaltBundle().getString("mail_new_message").replace("?", size.toString()), text, TrayIcon.MessageType.INFO);
+                    if (size == 0) {
+                        result = false;
+                    } else {
+                        result = true;
+                        trayIcon.displayMessage(
+                                "<html>"
+                                //                                    + java.util.ResourceBundle.getBundle("pt-br")
+                                + UtilService.getInstance().getDefaltBundle().getString("mail_new_message").replace("?", size.toString()), text, TrayIcon.MessageType.INFO);
+                    }
 
                 } catch (Exception e) {
                     Logger.getLogger(MenuItemGmail.class.getName()).log(Level.SEVERE, null, e);
                 }
-                return null;
+                return result;
             }
 
             @Override
             protected void done() {
-                trayIcon.setImage(image);
+                Boolean get = false;
+                try {
+                    get = (Boolean) get();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MenuItemGmail.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(MenuItemGmail.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (get) {
+                    trayIcon.setImage(imageNewMail);
+                } else {
+                    trayIcon.setImage(image);
+                }
                 super.done();
             }
         };
