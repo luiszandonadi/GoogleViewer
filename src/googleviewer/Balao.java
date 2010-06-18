@@ -117,8 +117,9 @@ public class Balao extends JWindow {
         //        setLocation(location.x + 200, location.y);
         //        setLocationRelativeTo(null);
 
-        Double width = screenSize.getWidth() / 4;
-        setLocation(width.intValue(), 0);
+//        Double width = screenSize.getWidth() / 4;
+//        setLocation(width.intValue(), 0);
+        setLocation(0, 0);
 
         MouseListener mouseListener = new MouseListener() {
 

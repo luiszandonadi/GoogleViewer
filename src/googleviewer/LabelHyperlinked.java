@@ -22,7 +22,7 @@ public class LabelHyperlinked extends JLabel {
 
     private String url;
     private Font font = new Font("Dialog", Font.PLAIN, 13);
-    private Font fontBold = new Font("Dialog", Font.BOLD, 12);
+    private Font fontBold = new Font("Dialog", Font.ITALIC, 13);
     private Color currentColor;
 
     public void setUrl(String url) {
