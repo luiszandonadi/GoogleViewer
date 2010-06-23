@@ -39,9 +39,10 @@ public class MenuItemGmail extends MenuItem {
     private TrayIcon trayIcon;
     private static URL iconNewMail = StartService.class.getResource("/googleviewer/images/mail.png");
     private static final Image imageNewMail = new ImageIcon(iconNewMail).getImage();
-
+private String label;
     public MenuItemGmail(String label, final Image image, final Image imageLoading, final TrayIcon trayIcon) throws HeadlessException {
         super(label);
+        this.label = label;
         this.image = image;
         this.imageLoading = imageLoading;
         this.trayIcon = trayIcon;
@@ -112,8 +113,10 @@ public class MenuItemGmail extends MenuItem {
                     UtilService.getInstance().setEmails(emails);
                     Integer size = messages.size();
                     if (size == 0) {
+                    setLabel(label);
                         result = false;
                     } else {
+                        setLabel(label+" ("+size.toString()+")");
                         result = true;
                         trayIcon.displayMessage(
                                 "<html>"

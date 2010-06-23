@@ -85,13 +85,13 @@ public class Balao extends JWindow {
         balloonTitle = new JLabel(titulo);
         Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = defaultToolkit.getScreenSize();
-        try {
-            URL icon = Balao.class.getResource("/googleviewer/images/cancel.png");
-            balloonTitle.setIcon(new ImageIcon(icon));
-
-        } catch (Exception ex) {
-            Logger.getLogger(Balao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            URL icon = Balao.class.getResource("/googleviewer/images/cancel.png");
+//            balloonTitle.setIcon(new ImageIcon(icon));
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(Balao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         balloonTitle.setOpaque(true);
 //        balloonTitle.setBackground(Color.decode("#43328F"));
 //        balloonTitle.setBackground(Color.decode("#C10000"));
@@ -119,7 +119,7 @@ public class Balao extends JWindow {
 
 //        Double width = screenSize.getWidth() / 4;
 //        setLocation(width.intValue(), 0);
-        setLocation(0, 0);
+//        setLocation(0, 0);
 
         MouseListener mouseListener = new MouseListener() {
 
@@ -154,6 +154,7 @@ public class Balao extends JWindow {
                 label.setUrl(email.getUrl());
                 label.setForeground(c);
                 label.addMouseListener(mouseListener);
+                label.setSize(100, 10);
                 panelContent.add(label);
 
 
@@ -179,7 +180,7 @@ public class Balao extends JWindow {
         thread.start();
         pack();
         balloonTitle.setHorizontalTextPosition(JLabel.LEFT);
-        balloonTitle.setIconTextGap(this.getSize().width-190);
+        balloonTitle.setIconTextGap(this.getSize().width - 190);
     }
 }
 

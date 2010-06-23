@@ -291,6 +291,11 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
         });
 
         jCheckBox1.setText("Dia Inteiro");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/googleviewer/images/delete.png"))); // NOI18N
         jButton5.setText("Deletar");
@@ -499,17 +504,11 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
                     //TODO: needs refactor!!!!!!!!
                     Date dateInicio = datePickerInicio.getDate();
                     Date dateFim = datePickerFim.getDate();
-                    boolean dateOnly = false;
-                    if (!jCheckBox1.isSelected()) {
-
-                        dateInicio.setHours(smi.getDate().getHours());
-                        dateFim.setHours(smf.getDate().getHours());
-                        dateInicio.setMinutes(smi.getDate().getMinutes());
-                        dateFim.setMinutes(smf.getDate().getMinutes());
-
-                    } else {
-                        dateOnly = true;
-                    }
+                    boolean dateOnly = jCheckBox1.isSelected();
+                    dateInicio.setHours(smi.getDate().getHours());
+                    dateFim.setHours(smf.getDate().getHours());
+                    dateInicio.setMinutes(smi.getDate().getMinutes());
+                    dateFim.setMinutes(smf.getDate().getMinutes());
                     DateTime startTime = new DateTime(dateInicio, TimeZone.getDefault());
                     DateTime endTime = new DateTime(dateFim, TimeZone.getDefault());
                     startTime.setDateOnly(dateOnly);
@@ -628,6 +627,12 @@ public class FrameCalendarEventos extends javax.swing.JFrame {
         };
         swingWorker.execute();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        smi.setValue(new Date());
+        smf.setValue(new Date());
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void anime(boolean b) {
         labelLoading.setVisible(b);
